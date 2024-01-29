@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.MainActivity"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/flHeaderContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </FrameLayout>
+    <LinearLayout
+        android:id="@+id/llMainAct"
+        android:layout_width="match_parent"
+        android:background="?attr/backgroundColor"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:hint="@string/name"
+            android:layout_marginBottom="8dp"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="30sp"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/actvCountries"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:hint="@string/country"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/tvColors"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/flag"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="40sp"
+            android:layout_weight="1"/>
+
+        <RadioGroup
+            android:id="@+id/rgColors"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/rbHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/horizontal"
+                android:checked="true"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="30sp"/>
+
+            <RadioButton
+                android:id="@+id/rbVertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vertical"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="30sp"/>
+        </RadioGroup>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgColors"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+
+            <com.google.android.material.chip.Chip
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/red"
+                style="@style/MatrixThemeChip"
+                android:text="@string/red" />
+            <com.google.android.material.chip.Chip
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/purple"
+                app:closeIconTint="@color/white"
+                app:chipIconTint="@color/white"
+                android:textColor="@color/white"
+                style="@style/MatrixThemeChip"
+                android:text="@string/purple" />
+            <com.google.android.material.chip.Chip
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/black"
+                app:closeIconTint="@color/white"
+                app:chipIconTint="@color/white"
+                android:textColor="@color/white"
+                style="@style/MatrixThemeChip"
+                android:text="@string/black" />
+            <com.google.android.material.chip.Chip
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/blue"
+                android:textColor="@color/white"
+                app:closeIconTint="@color/white"
+                app:chipIconTint="@color/white"
+                style="@style/MatrixThemeChip"
+                android:text="@string/blue" />
+            <com.google.android.material.chip.Chip
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/yellow"
+                style="@style/MatrixThemeChip"
+                android:text="@string/yellow" />
+            <com.google.android.material.chip.Chip
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/orange"
+                style="@style/MatrixThemeChip"
+                android:text="@string/orange" />
+            <com.google.android.material.chip.Chip
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/white"
+                style="@style/MatrixThemeChip"
+                android:text="@string/white" />
+            <com.google.android.material.chip.Chip
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/green"
+                style="@style/MatrixThemeChip"
+                android:text="@string/green" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/butCreate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/create"
+                android:layout_marginHorizontal="8dp"
+                android:textSize="21sp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/butChoose"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/choose"
+                android:layout_marginHorizontal="8dp"
+                android:textSize="21sp"/>
+        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/flBottomContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"/>
+    </LinearLayout>
+
+</LinearLayout>

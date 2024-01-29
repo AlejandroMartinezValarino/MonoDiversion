@@ -1,0 +1,38 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MonoDiversion.Light" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/matrix_theme_light_primary</item>
+        <item name="colorPrimaryVariant">@color/matrix_theme_light_primaryContainer</item>
+        <item name="colorSecondary">@color/matrix_theme_light_secondary</item>
+        <item name="colorTertiary">@color/matrix_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/matrix_theme_light_onTertiary</item>
+        <item name="colorSecondaryVariant">@color/matrix_theme_light_onSecondary</item>
+        <item name="backgroundColor">@color/matrix_theme_light_background</item>
+        <item name="android:windowBackground">@color/matrix_theme_light_background</item>
+        <item name="colorSurface">@color/matrix_theme_light_surface</item>
+        <item name="colorOnPrimary">@color/matrix_theme_light_onPrimary</item>
+        <item name="colorOnSecondary">@color/matrix_theme_light_onSecondaryContainer</item>
+        <item name="colorOnBackground">@color/matrix_theme_light_onBackground</item>
+        <item name="colorOnSurface">@color/matrix_theme_light_onSurface</item>
+    </style>
+
+    <style name="MatrixThemeChip" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="chipBackgroundColor">@color/matrix_theme_light_primary</item>
+        <item name="chipStrokeColor">@color/matrix_theme_light_outline</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipIconTint">@color/matrix_theme_light_onPrimary</item>
+        <item name="chipCornerRadius">8dp</item>
+        <item name="android:textSize">27sp</item>
+    </style>
+
+    <style name="Theme.MonoDiversion.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MonoDiversion.Light.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MonoDiversion.Light.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

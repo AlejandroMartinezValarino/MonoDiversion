@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0018</color>
+    <color name="orange">#FFA52C</color>
+    <color name="yellow">#FFFF41</color>
+    <color name="green">#008018</color>
+    <color name="blue">#0000F9</color>
+    <color name="purple">#86007D</color>
+    <string name="yellow">yellow</string>
+
+
+    <!-- Tema claro -->
+    <color name="matrix_theme_light_primary">#FFFFAB91</color>
+    <color name="matrix_theme_light_onPrimary">#FF000000</color>
+    <color name="matrix_theme_light_primaryContainer">#FFFFAB91</color>
+    <color name="matrix_theme_light_onPrimaryContainer">#FF000000</color>
+    <color name="matrix_theme_light_secondary">#FFFF8A65</color>
+    <color name="matrix_theme_light_onSecondary">#FF000000</color>
+    <color name="matrix_theme_light_secondaryContainer">#FFFF8A65</color>
+    <color name="matrix_theme_light_onSecondaryContainer">#FF000000</color>
+    <color name="matrix_theme_light_tertiary">#FFF76D47</color>
+    <color name="matrix_theme_light_onTertiary">#FF000000</color>
+    <color name="matrix_theme_light_tertiaryContainer">#FFF76D47</color>
+    <color name="matrix_theme_light_onTertiaryContainer">#FF000000</color>
+    <color name="matrix_theme_light_error">#FFEB5757</color>
+    <color name="matrix_theme_light_errorContainer">#FFEB5757</color>
+    <color name="matrix_theme_light_onError">#FF000000</color>
+    <color name="matrix_theme_light_onErrorContainer">#FF000000</color>
+    <color name="matrix_theme_light_background">#FFFFF3E0</color>
+    <color name="matrix_theme_light_onBackground">#FF000000</color>
+    <color name="matrix_theme_light_surface">#FFFFF3E0</color>
+    <color name="matrix_theme_light_onSurface">#FF000000</color>
+    <color name="matrix_theme_light_surfaceVariant">#FFFFE0B2</color>
+    <color name="matrix_theme_light_onSurfaceVariant">#FF000000</color>
+    <color name="matrix_theme_light_outline">#FF81C784</color>
+    <color name="matrix_theme_light_inverseOnSurface">#FFFFF3E0</color>
+    <color name="matrix_theme_light_inverseSurface">#FF000000</color>
+    <color name="matrix_theme_light_inversePrimary">#FFFFAB91</color>
+    <color name="matrix_theme_light_shadow">#FF000000</color>
+    <color name="matrix_theme_light_surfaceTint">#FF81C784</color>
+    <color name="matrix_theme_light_outlineVariant">#FF90A4AE</color>
+    <color name="matrix_theme_light_scrim">#FF000000</color>
+
+    <!-- Tema oscuro -->
+    <color name="matrix_theme_dark_primary">#FF00FF00</color>
+    <color name="matrix_theme_dark_onPrimary">#FF000000</color>
+    <color name="matrix_theme_dark_primaryContainer">#FF00FF00</color>
+    <color name="matrix_theme_dark_onPrimaryContainer">#FF000000</color>
+    <color name="matrix_theme_dark_secondary">#FF00C853</color>
+    <color name="matrix_theme_dark_onSecondary">#FF000000</color>
+    <color name="matrix_theme_dark_secondaryContainer">#FF00C853</color>
+    <color name="matrix_theme_dark_onSecondaryContainer">#FF000000</color>
+    <color name="matrix_theme_dark_tertiary">#FF4CAF50</color>
+    <color name="matrix_theme_dark_onTertiary">#FF000000</color>
+    <color name="matrix_theme_dark_tertiaryContainer">#FF4CAF50</color>
+    <color name="matrix_theme_dark_onTertiaryContainer">#FF000000</color>
+    <color name="matrix_theme_dark_error">#FFEF5350</color>
+    <color name="matrix_theme_dark_errorContainer">#FFEF5350</color>
+    <color name="matrix_theme_dark_onError">#FF000000</color>
+    <color name="matrix_theme_dark_onErrorContainer">#FF000000</color>
+    <color name="matrix_theme_dark_background">#FF121212</color>
+    <color name="matrix_theme_dark_onBackground">#FFFFFFFF</color>
+    <color name="matrix_theme_dark_surface">#FF121212</color>
+    <color name="matrix_theme_dark_onSurface">#FFFFFFFF</color>
+    <color name="matrix_theme_dark_surfaceVariant">#FF263238</color>
+    <color name="matrix_theme_dark_onSurfaceVariant">#FFFFFFFF</color>
+    <color name="matrix_theme_dark_outline">#FF689F38</color>
+    <color name="matrix_theme_dark_inverseOnSurface">#FF121212</color>
+    <color name="matrix_theme_dark_inverseSurface">#FFFFFFFF</color>
+    <color name="matrix_theme_dark_inversePrimary">#FF00FF00</color>
+    <color name="matrix_theme_dark_shadow">#FF000000</color>
+    <color name="matrix_theme_dark_surfaceTint">#FF689F38</color>
+    <color name="matrix_theme_dark_outlineVariant">#FF455A64</color>
+    <color name="matrix_theme_dark_scrim">#FF000000</color>
+
+</resources>
