@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Score(
-    val scoreId: Long,
-    val points: Long,
-    val gameType: GameType
+    var scoreId: Long = 0L,
+    var points: Long = 0L,
+    var gameType: GameType = GameType.AGILITY
 ): Parcelable

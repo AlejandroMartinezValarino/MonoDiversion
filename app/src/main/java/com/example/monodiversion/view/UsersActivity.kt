@@ -33,7 +33,6 @@ class UsersActivity : AppCompatActivity() {
     }
     private fun initView(){
         val container:RecyclerView = binding.usersContainer
-
         userViewModel.getUsers()
         userViewModel.users.observe(this){users->
             val userAdapter = UserAdapter(this,users)

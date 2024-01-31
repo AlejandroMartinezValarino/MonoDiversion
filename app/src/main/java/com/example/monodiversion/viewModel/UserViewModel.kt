@@ -1,9 +1,12 @@
 package com.example.monodiversion.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.monodiversion.model.Score
+import com.example.monodiversion.model.ScoreRepository
 import com.example.monodiversion.model.User
 import com.example.monodiversion.model.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,17 +15,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val scoreRepository: ScoreRepository
 ):ViewModel() {
     private val _isLightTheme = MutableLiveData(true)
     private val _userId = MutableLiveData(0L)
     private val _user = MutableLiveData(User())
+    private val _score = MutableLiveData(Score())
 
     val userId:LiveData<Long> get() = _userId
     val users = MutableLiveData<List<User>>()
     val isLoading = MutableLiveData<Boolean>()
     val isLightTheme:LiveData<Boolean> get() = _isLightTheme
     val user:LiveData<User> get() = _user
+    val score:LiveData<Score> get() = _score
 
     fun updateTheme(isLight:Boolean){
         _isLightTheme.value = isLight
@@ -30,11 +36,13 @@ class UserViewModel @Inject constructor(
     fun updateUser(user: User) {
         _user.value = user
     }
-    fun save(user:User){
+    fun save(){
         viewModelScope.launch {
-            if(user.flag != null){
-                val id = userRepository.save(user)
-                _userId.postValue(id)
+            user.value?.let { user->
+                if (user.flag != null){
+                    val id = userRepository.save(user)
+                    _userId.postValue(id)
+                }
             }
         }
     }

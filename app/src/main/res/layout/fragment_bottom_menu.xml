@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragment.BottomMenuFragment">
 
     <LinearLayout
@@ -10,48 +11,72 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvHome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/matrix_theme_light_secondary"
             android:layout_weight="1">
-            <ImageView
-                android:id="@+id/ivHome"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/home"
-                android:background="@color/matrix_theme_light_secondary"/>
+                android:text="@string/home"
+                android:textAlignment="center"
+                android:textSize="30sp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/home"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvMemory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/matrix_theme_light_secondary"
             android:layout_weight="1">
-            <ImageView
-                android:id="@+id/ivMemory"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/memory"
-                android:background="@color/matrix_theme_light_secondary"/>
+                android:text="@string/memory"
+                android:textAlignment="center"
+                android:textSize="27sp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/memory"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvAgility"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/matrix_theme_light_secondary"
             android:layout_weight="1">
-            <ImageView
-                android:id="@+id/ivAgility"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/agility"
-                android:background="@color/matrix_theme_light_secondary"/>
+                android:text="@string/agility"
+                android:textAlignment="center"
+                android:textSize="30sp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/agility"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvScore"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/matrix_theme_light_secondary"
             android:layout_weight="1">
-            <ImageView
-                android:id="@+id/ivScore"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/trophy"
-                android:background="@color/matrix_theme_light_secondary"/>
+                android:text="@string/score"
+                android:textAlignment="center"
+                android:textSize="30sp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/trophy"/>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 

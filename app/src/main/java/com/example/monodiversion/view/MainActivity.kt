@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val userViewModel: UserViewModel by viewModels()
-    private var user = User()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,28 +52,14 @@ class MainActivity : AppCompatActivity() {
                 .setReorderingAllowed(true)
                 .commit()
         }
-        if(intent.hasExtra("Choose")){
-            userViewModel.updateById(intent.getLongExtra("Choose",0))
-            userViewModel.user.observe(this) {
-                user = it
-            }
+        if(intent.hasExtra("id")){
+            val id = intent.getLongExtra("id",0)
+            userViewModel.updateById(id)
         }
         initListeners()
         onUserCreation()
         saveUser()
         chooseUser()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        // Guarda el estado del tema
-        outState.putBoolean("isLightTheme", userViewModel.isLightTheme.value ?: false)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        // Restaura el estado del tema
-        userViewModel.updateTheme(savedInstanceState.getBoolean("isLightTheme"))
     }
 
     private fun initListeners() {
@@ -85,50 +70,53 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onUserCreation() {
-        val flag = user.flag
-        var selectedChips:List<Int> = listOf(ContextCompat.getColor(this,R.color.matrix_theme_light_primary))
-        var selectedArrangement:BoxArrangement = BoxArrangement.HORIZONTAL
+        userViewModel.user.observe(this){user->
 
-        binding.etName.doAfterTextChanged { text ->
-            user.name = text.toString()
-            userViewModel.updateUser(user)
-        }
-        binding.actvCountries.setOnItemClickListener { parent, _, position, _ ->
-            val selectedItem = parent.getItemAtPosition(position) as? Pair<String, String>
-            if (selectedItem != null) {
-                user.country = selectedItem
-                userViewModel.updateUser(user)
-            }
-        }
-        binding.cgColors.setOnCheckedStateChangeListener { _, _ ->
-            selectedChips = binding.cgColors.children
-                .filter { (it as Chip).isChecked }
-                .map { getColorResourceByName((it as Chip).text.toString(), this) }
-                .toList()
-            if (flag != null) {
-                flag.colors = selectedChips
-                user.flag = flag
-                userViewModel.updateUser(user)
-            }else{
-                user.flag = Flag(selectedChips,selectedArrangement)
-                userViewModel.updateUser(user)
-            }
-        }
+            val flag = user.flag
+            var selectedChips:List<Int> = listOf(ContextCompat.getColor(this,R.color.matrix_theme_light_primary))
+            var selectedArrangement:BoxArrangement = BoxArrangement.HORIZONTAL
 
-        binding.rgColors.setOnCheckedChangeListener { group, id ->
-            val rbArrangement = group.findViewById<RadioButton>(id)
-            selectedArrangement = when (rbArrangement.text) {
-                "Horizontal" -> BoxArrangement.HORIZONTAL
-                "Vertical" -> BoxArrangement.VERTICAL
-                else -> BoxArrangement.HORIZONTAL
+            binding.etName.doAfterTextChanged { text ->
+                user.name = text.toString()
+                userViewModel.updateUser(user)
             }
-            if (flag != null) {
-                flag.orientation = selectedArrangement
-                user.flag = flag
-                userViewModel.updateUser(user)
-            }else{
-                user.flag = Flag(selectedChips,selectedArrangement)
-                userViewModel.updateUser(user)
+            binding.actvCountries.setOnItemClickListener { parent, _, position, _ ->
+                val selectedItem = parent.getItemAtPosition(position) as? Pair<String, String>
+                if (selectedItem != null) {
+                    user.country = selectedItem
+                    userViewModel.updateUser(user)
+                }
+            }
+            binding.cgColors.setOnCheckedStateChangeListener { _, _ ->
+                selectedChips = binding.cgColors.children
+                    .filter { (it as Chip).isChecked }
+                    .map { getColorResourceByName((it as Chip).text.toString(), this) }
+                    .toList()
+                if (flag != null) {
+                    flag.colors = selectedChips
+                    user.flag = flag
+                    userViewModel.updateUser(user)
+                }else{
+                    user.flag = Flag(selectedChips,selectedArrangement)
+                    userViewModel.updateUser(user)
+                }
+            }
+
+            binding.rgColors.setOnCheckedChangeListener { group, id ->
+                val rbArrangement = group.findViewById<RadioButton>(id)
+                selectedArrangement = when (rbArrangement.text) {
+                    "Horizontal" -> BoxArrangement.HORIZONTAL
+                    "Vertical" -> BoxArrangement.VERTICAL
+                    else -> BoxArrangement.HORIZONTAL
+                }
+                if (flag != null) {
+                    flag.orientation = selectedArrangement
+                    user.flag = flag
+                    userViewModel.updateUser(user)
+                }else{
+                    user.flag = Flag(selectedChips,selectedArrangement)
+                    userViewModel.updateUser(user)
+                }
             }
         }
     }
@@ -145,15 +133,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveUser(){
         binding.butCreate.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("User created")
-            builder.setMessage("Name: ${user.name}")
-            builder.setPositiveButton("Accept") { dialog, which ->
-                dialog.dismiss()
+            userViewModel.user.observe(this){user->
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("User created")
+                builder.setMessage("Name: ${user.name}")
+                builder.setPositiveButton("Accept") { dialog, which ->
+                    dialog.dismiss()
+                }
+                userViewModel.save()
+                builder.create()
+                    .show()
             }
-            userViewModel.save(user)
-            builder.create()
-                .show()
         }
     }
 

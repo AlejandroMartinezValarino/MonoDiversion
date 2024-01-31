@@ -1,23 +1,24 @@
 package com.example.monodiversion.model
 
+import com.example.monodiversion.data.UserScoreDb
 import com.example.monodiversion.data.dao.ScoreDao
 import com.example.monodiversion.data.entity.ScoreEntity
 import javax.inject.Inject
 
-class ScoreRepository @Inject constructor(private val database: ScoreDao) {
+class ScoreRepository @Inject constructor(private val database: UserScoreDb) {
 
     suspend fun upsertScore(score: Score, userId: Long) {
         val scoreEntity = score.toScoreEntity(userId)
-        database.upsertScore(scoreEntity)
+        database.scoreDao().upsertScore(scoreEntity)
     }
 
     suspend fun deleteScore(score: Score, userId: Long) {
         val scoreEntity = score.toScoreEntity(userId)
-        database.deleteScore(scoreEntity)
+        database.scoreDao().deleteScore(scoreEntity)
     }
 
     suspend fun getScoresByUser(userId: Long): List<Score> {
-        return database.getScoresByUser(userId)
+        return database.scoreDao().getScoresByUser(userId)
     }
 
     //Mappers

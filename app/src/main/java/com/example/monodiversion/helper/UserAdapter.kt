@@ -10,15 +10,17 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.monodiversion.R
 import com.example.monodiversion.databinding.ActivityUsersBinding
 import com.example.monodiversion.model.User
+import com.example.monodiversion.view.MainActivity
 import com.example.monodiversion.view.UsersActivity
 import com.example.monodiversion.viewModel.UserViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class UserAdapter(private val context: Context, private val userList: List<User>) :
+class UserAdapter(private val context: Context, private var userList: List<User>) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -68,11 +70,17 @@ class UserAdapter(private val context: Context, private val userList: List<User>
                 .setPositiveButton("Yes") { dialog, which ->
                     userViewModel.deleteUser(userToDelete)
                     notifyItemRemoved(holder.adapterPosition)
+                    userViewModel.users.observe(context) { users ->
+                        val diffResult = DiffUtil.calculateDiff(UserDiffCallback(userList, users))
+                        userList = users
+                        diffResult.dispatchUpdatesTo(this)
+                    }
                     Toast.makeText(
                         context,
                         "Has eliminado a ${userToDelete.name}",
                         Toast.LENGTH_SHORT
                     ).show()
+                }.setNegativeButton("No"){_,_->
                 }
                 .create()
             dialog.show()
@@ -80,9 +88,9 @@ class UserAdapter(private val context: Context, private val userList: List<User>
 
         holder.faButChoose.setOnClickListener {
             val userToChoose = getItem(holder.adapterPosition)
-            intent.removeExtra("Choose")
-            intent.putExtra("Choose", userToChoose.id)
-            Toast.makeText(context, "Has elegido a ${userToChoose.name}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,"You chose ${userToChoose.name}",Toast.LENGTH_SHORT)
+                .show()
+            userViewModel.updateById(userToChoose.id)
         }
     }
 

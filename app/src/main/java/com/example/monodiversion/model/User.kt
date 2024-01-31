@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class User (
     val id: Long = 0L,
-    var name: String = "",
-    var country: Pair<String, String> = Pair("", ""),
+    var name: String = "Kiran",
+    var country: Pair<String, String> = Pair("Not", "Found"),
     var flag: Flag? = null
 ): Parcelable

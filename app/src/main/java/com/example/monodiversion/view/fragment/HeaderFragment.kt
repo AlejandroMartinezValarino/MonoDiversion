@@ -1,5 +1,6 @@
 package com.example.monodiversion.view.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -39,12 +40,14 @@ class HeaderFragment : Fragment() {
                 binding.llHeader.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary))
                 binding.tvName.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_onPrimary))
                 binding.tvCountry.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_onPrimary))
+                binding.tvScore.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_onPrimary))
                 binding.tvSwitch.text = "Light"
                 binding.tvSwitch.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_onPrimary))
             } else {
                 binding.llHeader.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
                 binding.tvName.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_onPrimary))
                 binding.tvCountry.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_onPrimary))
+                binding.tvScore.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_onPrimary))
                 binding.tvSwitch.text = "Dark"
                 binding.tvSwitch.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_onPrimary))
             }
@@ -58,10 +61,15 @@ class HeaderFragment : Fragment() {
     }
 
     private fun initListeners(){
+        userViewModel.score.observe(viewLifecycleOwner){score->
+            val points = score.points.toString()+" points"
+            binding.tvScore.text = points
+        }
         binding.scTheme.setOnCheckedChangeListener{_,isChecked ->
             userViewModel.updateTheme(isChecked)
         }
         userViewModel.user.observe(viewLifecycleOwner) { user ->
+            Log.d("+++", "headerFragment: ${user}")
             val flag = user.flag
             if (flag != null) {
                 binding.llFlag.orientation = if(flag.orientation == BoxArrangement.HORIZONTAL) HORIZONTAL else VERTICAL
