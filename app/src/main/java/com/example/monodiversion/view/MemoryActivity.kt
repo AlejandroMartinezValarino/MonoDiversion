@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.monodiversion.R
 import com.example.monodiversion.view.fragment.BottomMenuFragment
+import com.example.monodiversion.view.fragment.HeaderFragment
 import com.example.monodiversion.viewModel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,9 +32,13 @@ class MemoryActivity : GameActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_memory)
-        userViewModel
+        if(intent.hasExtra("id") && intent.getLongExtra("id",0L)!=0L){
+            val id = intent.getLongExtra("id",0L)
+            userViewModel.updateById(id)
+        }
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
+                .add(R.id.flHeaderContainer, HeaderFragment.newInstance())
                 .add(R.id.flBottomContainer, BottomMenuFragment.newInstance())
                 .setReorderingAllowed(true)
                 .commit()

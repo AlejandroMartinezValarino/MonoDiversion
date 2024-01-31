@@ -19,7 +19,11 @@ class UserRepository @Inject constructor(private val database: UserScoreDb) {
 
     suspend fun save(user: User):Long {
         val userId = database.userDao().upsert(user.toEntity())
-        database.flagDao().insert(user.flag!!.toEntity(userId))
+        if(exist(user)){
+            database.flagDao().insert(user.flag!!.toEntity(user.id))
+        }else{
+            database.flagDao().insert(user.flag!!.toEntity(userId))
+        }
         return userId
     }
 

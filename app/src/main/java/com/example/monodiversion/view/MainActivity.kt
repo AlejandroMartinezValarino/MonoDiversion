@@ -52,8 +52,8 @@ class MainActivity : AppCompatActivity() {
                 .setReorderingAllowed(true)
                 .commit()
         }
-        if(intent.hasExtra("id")){
-            val id = intent.getLongExtra("id",0)
+        if(intent.hasExtra("id") && intent.getLongExtra("id",0L)!=0L){
+            val id = intent.getLongExtra("id",0L)
             userViewModel.updateById(id)
         }
         initListeners()

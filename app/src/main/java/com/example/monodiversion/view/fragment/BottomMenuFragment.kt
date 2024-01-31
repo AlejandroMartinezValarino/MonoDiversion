@@ -1,5 +1,6 @@
 package com.example.monodiversion.view.fragment
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -34,71 +35,263 @@ class BottomMenuFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentBottomMenuBinding.inflate(inflater,container,false)
+        _binding = FragmentBottomMenuBinding.inflate(inflater, container, false)
         initBackground()
         onImageClicked()
         return binding.root
     }
 
-    private fun onImageClicked(){
-        var intent:Intent
-        userViewModel.user.observe(viewLifecycleOwner){user->
-            binding.cvHome.setOnClickListener{
+    private fun onImageClicked() {
+        var intent: Intent
+        userViewModel.user.observe(viewLifecycleOwner) { user ->
+            binding.cvHome.setOnClickListener {
                 intent = Intent(requireContext(), MainActivity::class.java)
-                intent.putExtra("id",user.id)
+                intent.putExtra("id", user.id)
                 startActivity(intent)
             }
-            binding.cvMemory.setOnClickListener{
-                intent = Intent(requireContext(), MemoryActivity::class.java)
-                intent.putExtra("id",user.id)
-                startActivity(intent)
+            binding.cvMemory.setOnClickListener {
+                if (user.id != 0L) {
+                    intent = Intent(requireContext(), MemoryActivity::class.java)
+                    intent.putExtra("id", user.id)
+                    startActivity(intent)
+                } else {
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setTitle("Empty user")
+                        .setMessage("Choose or create a user")
+                        .setPositiveButton("Ok") { _, _ -> }
+                        .create()
+                    dialog.show()
+                }
             }
-            binding.cvAgility.setOnClickListener{
-                intent = Intent(requireContext(), AgilityActivity::class.java)
-                intent.putExtra("id",user.id)
-                startActivity(intent)
+            binding.cvAgility.setOnClickListener {
+                if (user.id != 0L) {
+                    intent = Intent(requireContext(), AgilityActivity::class.java)
+                    intent.putExtra("id", user.id)
+                    startActivity(intent)
+                } else {
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setTitle("Empty user")
+                        .setMessage("Choose or create a user")
+                        .setPositiveButton("Ok") { _, _ -> }
+                        .create()
+                    dialog.show()
+                }
             }
-            binding.cvScore.setOnClickListener{
-                intent = Intent(requireContext(), ScoreActivity::class.java)
-                intent.putExtra("id",user.id)
-                startActivity(intent)
+            binding.cvScore.setOnClickListener {
+                if (user.id != 0L) {
+                    intent = Intent(requireContext(), ScoreActivity::class.java)
+                    intent.putExtra("id", user.id)
+                    startActivity(intent)
+                } else {
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setTitle("Empty user")
+                        .setMessage("Choose or create a user")
+                        .setPositiveButton("Ok") { _, _ -> }
+                        .create()
+                    dialog.show()
+                }
             }
         }
     }
 
-    private fun initBackground(){
+
+    private fun initBackground() {
         val activityName = activity?.localClassName
-        userViewModel.isLightTheme.observe(viewLifecycleOwner){isLight->
-            when(activityName){
-                "view.MainActivity"->{
-                    binding.cvHome.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_tertiary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_tertiary))
-                    binding.cvMemory.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvAgility.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvScore.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
+        userViewModel.isLightTheme.observe(viewLifecycleOwner) { isLight ->
+            when (activityName) {
+                "view.MainActivity" -> {
+                    binding.cvHome.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_tertiary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_tertiary
+                        )
+                    )
+                    binding.cvMemory.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvAgility.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvScore.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
                 }
-                "view.MemoryActivity"->{
-                    binding.cvMemory.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_tertiary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_tertiary))
-                    binding.cvHome.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvAgility.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvScore.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
+
+                "view.MemoryActivity" -> {
+                    binding.cvMemory.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_tertiary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_tertiary
+                        )
+                    )
+                    binding.cvHome.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvAgility.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvScore.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
                 }
-                "view.AgilityActivity"->{
-                    binding.cvAgility.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_tertiary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_tertiary))
-                    binding.cvMemory.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvHome.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvScore.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
+
+                "view.AgilityActivity" -> {
+                    binding.cvAgility.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_tertiary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_tertiary
+                        )
+                    )
+                    binding.cvMemory.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvHome.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvScore.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
                 }
-                "view.ScoreActivity"->{
-                    binding.cvScore.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_tertiary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_tertiary))
-                    binding.cvMemory.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvAgility.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvHome.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
+
+                "view.ScoreActivity" -> {
+                    binding.cvScore.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_tertiary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_tertiary
+                        )
+                    )
+                    binding.cvMemory.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvAgility.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvHome.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
                 }
-                else ->{
-                    binding.cvScore.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvMemory.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvAgility.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                    binding.cvHome.setCardBackgroundColor(if (isLight)ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary) else ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
+
+                else -> {
+                    binding.cvScore.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvMemory.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvAgility.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvHome.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
                 }
             }
         }

@@ -69,7 +69,6 @@ class HeaderFragment : Fragment() {
             userViewModel.updateTheme(isChecked)
         }
         userViewModel.user.observe(viewLifecycleOwner) { user ->
-            Log.d("+++", "headerFragment: ${user}")
             val flag = user.flag
             if (flag != null) {
                 binding.llFlag.orientation = if(flag.orientation == BoxArrangement.HORIZONTAL) HORIZONTAL else VERTICAL
