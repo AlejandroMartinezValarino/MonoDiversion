@@ -133,6 +133,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveUser(){
         binding.butCreate.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
             userViewModel.user.observe(this){user->
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("User created")
@@ -143,6 +144,10 @@ class MainActivity : AppCompatActivity() {
                 userViewModel.save()
                 builder.create()
                     .show()
+                userViewModel.userId.observe(this){id->
+                    intent.putExtra("id",id)
+                    startActivity(intent)
+                }
             }
         }
     }

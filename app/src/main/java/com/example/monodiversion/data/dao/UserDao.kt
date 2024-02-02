@@ -8,6 +8,7 @@ import com.example.monodiversion.data.entity.FlagEntity
 import com.example.monodiversion.data.entity.UserEntity
 import com.example.monodiversion.data.entity.UserWithFlag
 import com.example.monodiversion.data.entity.UserWithScores
+import com.example.monodiversion.model.User
 
 @Dao
 interface UserDao {

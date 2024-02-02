@@ -77,7 +77,7 @@ class UserAdapter(private val context: Context, private var userList: List<User>
                     }
                     Toast.makeText(
                         context,
-                        "Has eliminado a ${userToDelete.name}",
+                        "You deleted ${userToDelete.name}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }.setNegativeButton("No"){_,_->
