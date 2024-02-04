@@ -5,7 +5,7 @@ import com.example.monodiversion.helper.State
 abstract class Game {
 
     @JvmField
-    var level: Int = 1
+    var level: Int = 0
 
     var time: Long = 0L
 
@@ -13,7 +13,7 @@ abstract class Game {
     var points: Long = 0L
 
     @JvmField
-    var state: State = State.ACTIVO
+    var state: State = State.ACTIVE
 
     abstract fun start()
 

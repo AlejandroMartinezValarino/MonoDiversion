@@ -3,6 +3,7 @@ package com.example.monodiversion.model
 import com.example.monodiversion.data.UserScoreDb
 import com.example.monodiversion.data.dao.ScoreDao
 import com.example.monodiversion.data.entity.ScoreEntity
+import com.example.monodiversion.helper.GameType
 import javax.inject.Inject
 
 class ScoreRepository @Inject constructor(private val database: UserScoreDb) {
@@ -18,7 +19,11 @@ class ScoreRepository @Inject constructor(private val database: UserScoreDb) {
     }
 
     suspend fun getScoresByUser(userId: Long): List<Score> {
-        return database.scoreDao().getScoresByUser(userId)
+        return database.scoreDao().getScoresByUser(userId).toScores()
+    }
+
+    suspend fun getScoresByUserAndGameType(userId: Long,gameType: GameType):List<Score>{
+        return database.scoreDao().getScoresByUserAndGameType(userId,gameType).toScores()
     }
 
     //Mappers

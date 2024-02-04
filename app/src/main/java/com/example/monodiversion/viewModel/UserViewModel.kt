@@ -1,10 +1,10 @@
 package com.example.monodiversion.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.monodiversion.helper.GameType
 import com.example.monodiversion.model.Score
 import com.example.monodiversion.model.ScoreRepository
 import com.example.monodiversion.model.User
@@ -34,7 +34,11 @@ class UserViewModel @Inject constructor(
         _isLightTheme.value = isLight
     }
     fun updateUser(user: User) {
-        _user.value = user
+        _user.postValue(user)
+    }
+
+    fun setGameType(gameType: GameType){
+        _score.value?.gameType = gameType
     }
     fun save(){
         viewModelScope.launch {

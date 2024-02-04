@@ -23,19 +23,19 @@ class MemoryGame : Game() {
     // Método para pausar el juego
     override fun pause() {
         // Cambiar el estado del juego a pausado
-        state = State.PAUSADO
+        state = State.PAUSED
     }
 
     // Método para terminar el juego
     override fun end() {
         // Cambiar el estado del juego a terminado
-        state = State.TERMINADO
+        state = State.ENDED
     }
 
     // Método para actualizar el juego
     override fun update() {
         // Si el juego está activo
-        if (state == State.ACTIVO) {
+        if (state == State.ACTIVE) {
             // Reducir el tiempo en un segundo
             time--
             // Si el tiempo se agota
@@ -54,7 +54,7 @@ class MemoryGame : Game() {
     // Método para seleccionar un número
     fun select(number: Int) {
         // Si el juego está activo y los números están ocultos
-        if (state == State.ACTIVO && hidden) {
+        if (state == State.ACTIVE && hidden) {
             // Añadir el número a la lista de seleccionados
             selected = selected + number
             // Si la lista de seleccionados tiene el mismo tamaño que la lista de números

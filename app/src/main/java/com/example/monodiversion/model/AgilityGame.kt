@@ -21,19 +21,19 @@ class AgilityGame : Game() {
     // Método para pausar el juego
     override fun pause() {
         // Cambiar el estado del juego a pausado
-        state = State.PAUSADO
+        state = State.PAUSED
     }
 
     // Método para terminar el juego
     override fun end() {
         // Cambiar el estado del juego a terminado
-        state = State.TERMINADO
+        state = State.ENDED
     }
 
     // Método para actualizar el juego
     override fun update() {
         // Si el juego está activo
-        if (state == State.ACTIVO) {
+        if (state == State.ACTIVE) {
             // Reducir el tiempo en un segundo
             time--
             // Reducir el tiempo límite en un segundo
@@ -54,7 +54,7 @@ class AgilityGame : Game() {
     // Método para pulsar el botón
     fun pressButton() {
         // Si el juego está activo y el tiempo límite no se ha agotado
-        if (state == State.ACTIVO && timeLimit > 0) {
+        if (state == State.ACTIVE && timeLimit > 0) {
             // Aumentar los puntos según el tiempo límite restante
             points += timeLimit
             // Aumentar el nivel en uno

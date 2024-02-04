@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.monodiversion.R
 import com.example.monodiversion.databinding.FragmentBottomMenuBinding
 import com.example.monodiversion.view.AgilityActivity
+import com.example.monodiversion.view.CombinationActivity
 import com.example.monodiversion.view.MainActivity
 import com.example.monodiversion.view.MemoryActivity
 import com.example.monodiversion.view.ScoreActivity
@@ -77,6 +78,20 @@ class BottomMenuFragment : Fragment() {
                     dialog.show()
                 }
             }
+            binding.cvCombination.setOnClickListener {
+                if (user.id != 0L) {
+                    intent = Intent(requireContext(), CombinationActivity::class.java)
+                    intent.putExtra("id", user.id)
+                    startActivity(intent)
+                } else {
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setTitle("Empty user")
+                        .setMessage("Choose or create a user")
+                        .setPositiveButton("Ok") { _, _ -> }
+                        .create()
+                    dialog.show()
+                }
+            }
             binding.cvScore.setOnClickListener {
                 if (user.id != 0L) {
                     intent = Intent(requireContext(), ScoreActivity::class.java)
@@ -107,6 +122,15 @@ class BottomMenuFragment : Fragment() {
                         ) else ContextCompat.getColor(
                             requireContext(),
                             R.color.matrix_theme_dark_tertiary
+                        )
+                    )
+                    binding.cvCombination.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
                         )
                     )
                     binding.cvMemory.setCardBackgroundColor(
@@ -166,6 +190,15 @@ class BottomMenuFragment : Fragment() {
                             R.color.matrix_theme_dark_primary
                         )
                     )
+                    binding.cvCombination.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
                     binding.cvScore.setCardBackgroundColor(
                         if (isLight) ContextCompat.getColor(
                             requireContext(),
@@ -185,6 +218,63 @@ class BottomMenuFragment : Fragment() {
                         ) else ContextCompat.getColor(
                             requireContext(),
                             R.color.matrix_theme_dark_tertiary
+                        )
+                    )
+                    binding.cvCombination.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvMemory.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvHome.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvScore.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                }
+
+                "view.CombinationActivity" -> {
+                    binding.cvCombination.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_tertiary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_tertiary
+                        )
+                    )
+                    binding.cvAgility.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
                         )
                     )
                     binding.cvMemory.setCardBackgroundColor(
@@ -226,6 +316,15 @@ class BottomMenuFragment : Fragment() {
                             R.color.matrix_theme_dark_tertiary
                         )
                     )
+                    binding.cvCombination.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
                     binding.cvMemory.setCardBackgroundColor(
                         if (isLight) ContextCompat.getColor(
                             requireContext(),
@@ -257,6 +356,15 @@ class BottomMenuFragment : Fragment() {
 
                 else -> {
                     binding.cvScore.setCardBackgroundColor(
+                        if (isLight) ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_light_primary
+                        ) else ContextCompat.getColor(
+                            requireContext(),
+                            R.color.matrix_theme_dark_primary
+                        )
+                    )
+                    binding.cvCombination.setCardBackgroundColor(
                         if (isLight) ContextCompat.getColor(
                             requireContext(),
                             R.color.matrix_theme_light_primary

@@ -14,6 +14,9 @@
         android:theme="@style/Theme.MonoDiversion.Light"
         tools:targetApi="31">
         <activity
+            android:name=".view.CombinationActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.ScoreActivity"
             android:exported="false" />
         <activity
