@@ -74,5 +74,6 @@
     <color name="matrix_theme_dark_surfaceTint">#FF689F38</color>
     <color name="matrix_theme_dark_outlineVariant">#FF455A64</color>
     <color name="matrix_theme_dark_scrim">#FF000000</color>
+    <color name="semi_transparent">#80000000</color>
 
 </resources>

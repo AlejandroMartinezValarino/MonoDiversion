@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.CombinationActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".view.CombinationActivity">
+
     <FrameLayout
         android:id="@+id/flHeaderContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.5">
+        android:layout_weight="0.5"
+        android:orientation="horizontal">
 
         <SeekBar
             android:id="@+id/sbLevel"
@@ -25,26 +27,50 @@
             android:layout_weight="8"
             android:max="4"
             android:progress="0" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/faButPause"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@drawable/baseline_pause_24"
-            android:clickable="true"/>
+            android:clickable="true"
+            android:visibility="gone"
+            app:srcCompat="@drawable/baseline_pause_24" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/faButPlay"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            app:srcCompat="@drawable/play" />
     </LinearLayout>
-    <GridLayout
-        android:id="@+id/glContainer"
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"
-        android:rowCount="4"
-        android:columnCount="5">
+        android:layout_weight="7">
 
-    </GridLayout>
+        <GridLayout
+            android:id="@+id/glContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="5"
+            android:rowCount="5">
+        </GridLayout>
+
+        <View
+            android:id="@+id/vOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/semi_transparent"
+            android:clickable="true"
+            android:visibility="visible" />
+    </FrameLayout>
+
     <FrameLayout
         android:id="@+id/flBottomContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2.5"/>
+        android:layout_weight="2.5" />
 </androidx.appcompat.widget.LinearLayoutCompat>
