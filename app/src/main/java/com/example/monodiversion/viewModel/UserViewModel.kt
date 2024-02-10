@@ -1,5 +1,6 @@
 package com.example.monodiversion.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,40 +18,63 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val scoreRepository: ScoreRepository
-):ViewModel() {
+) : ViewModel() {
     private val _isLightTheme = MutableLiveData(true)
     private val _userId = MutableLiveData(0L)
     private val _user = MutableLiveData(User())
     private val _score = MutableLiveData(Score())
 
-    val userId:LiveData<Long> get() = _userId
+    val userId: LiveData<Long> get() = _userId
     val users = MutableLiveData<List<User>>()
     val isLoading = MutableLiveData<Boolean>()
-    val isLightTheme:LiveData<Boolean> get() = _isLightTheme
-    val user:LiveData<User> get() = _user
-    val score:LiveData<Score> get() = _score
+    val isLightTheme: LiveData<Boolean> get() = _isLightTheme
+    val user: LiveData<User> get() = _user
+    val score: LiveData<Score> get() = _score
 
-    fun updateTheme(isLight:Boolean){
+    fun updateTheme(isLight: Boolean) {
         _isLightTheme.value = isLight
     }
+
     fun updateUser(user: User) {
         _user.postValue(user)
     }
 
-    fun setGameType(gameType: GameType){
+    fun updateScore(points: Long) {
+        _score.postValue(Score(points = points))
+    }
+
+    fun setGameType(gameType: GameType) {
         _score.value?.gameType = gameType
     }
-    fun save(){
+    fun setNewScore(gameType: GameType){
+        Log.d("+++", "setNewScore: ")
+        _score.postValue(Score())
+        setGameType(gameType)
+    }
+    fun saveScore(){
         viewModelScope.launch {
-            user.value?.let { user->
-                if (user.flag != null){
+            score.value?.let { score->
+                if(score.points>0){
+                    user.value?.let { user->
+                        scoreRepository.upsertScore(score,user.id)
+                    }
+                }
+            }
+        }
+    }
+
+    fun save() {
+        viewModelScope.launch {
+            user.value?.let { user ->
+                if (user.flag != null) {
                     val id = userRepository.save(user)
                     _userId.postValue(id)
                 }
             }
         }
     }
-    fun getUsers(){
+
+    fun getUsers() {
         viewModelScope.launch {
             isLoading.postValue(true)
             val userList = userRepository.getAll()
@@ -58,15 +82,17 @@ class UserViewModel @Inject constructor(
             isLoading.postValue(false)
         }
     }
-    fun updateById(id:Long){
+
+    fun updateById(id: Long) {
         viewModelScope.launch {
             val user = userRepository.getUserById(id)
             _user.postValue(user)
         }
     }
-    fun deleteUser(user: User){
+
+    fun deleteUser(user: User) {
         viewModelScope.launch {
-            if(userRepository.exist(user)){
+            if (userRepository.exist(user)) {
                 userRepository.remove(user)
             }
         }

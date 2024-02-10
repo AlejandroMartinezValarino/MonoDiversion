@@ -31,10 +31,15 @@ class CombinationActivity : GameActivity() {
     private val userViewModel: UserViewModel by viewModels<UserViewModel>()
     private lateinit var binding: ActivityCombinationBinding
     private var state: State = State.PAUSED
-    private val numberPickers = mutableListOf<NumberPicker>()
+    private var numberPickers = mutableListOf<NumberPicker>()
     private var level: Int = 0
     private var tries: Int = 0
     private var time: Long = 0L
+    private val rowZero = 0
+    private val rowOne = 1
+    private val rowTwo = 2
+    private val rowThree = 3
+    private val rowFour = 4
     private lateinit var timer: CountDownTimer
     private lateinit var tvTimer: TextView
     private lateinit var tvTries: TextView
@@ -46,50 +51,52 @@ class CombinationActivity : GameActivity() {
     override fun inflateLayout() {
         val grid = binding.glContainer
         val chrono = tvTimer
-        chrono.text = "00:00"
+
 
         binding.sbLevel.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val row = 1
                 level = progress
                 grid.removeAllViews()
                 when (level) {
                     0 -> {
                         maxNumber = 5
                         tries = 100
-                        time = 0
+                        time = 0L
                         marginError = 50
                         resNumbers = generateNumbers(1, 5)
                         tvTries.text = tries.toString()
                         zeroRow()
                         butRow()
-                        addNumberPickerToGridLayout(grid, row, 2, maxNumber)
-                        addSpaceToGridLayout(grid, row, 0)
-                        addSpaceToGridLayout(grid, row, 1)
-                        addSpaceToGridLayout(grid, row, 3)
-                        addSpaceToGridLayout(grid, row, 4)
+                        numberPickers = mutableListOf<NumberPicker>()
+                        addNumberPickerToGridLayout(grid, rowOne, 2, maxNumber)
+                        addSpaceToGridLayout(grid, rowOne, 0)
+                        addSpaceToGridLayout(grid, rowOne, 1)
+                        addSpaceToGridLayout(grid, rowOne, 3)
+                        addSpaceToGridLayout(grid, rowOne, 4)
                     }
 
                     1 -> {
                         tries = 30
-                        time = 0
+                        time = 0L
                         marginError = 40
                         resNumbers = generateNumbers(3, 5)
                         tvTries.text = tries.toString()
+                        numberPickers = mutableListOf<NumberPicker>()
                         zeroRow()
                         butRow()
-                        middleLevel(grid, row, 5)
+                        middleLevel(grid, rowOne, 5)
                     }
 
                     2 -> {
                         tries = 25
-                        time = 0
+                        time = 0L
                         marginError = 30
                         resNumbers = generateNumbers(3, 10)
                         tvTries.text = tries.toString()
+                        numberPickers = mutableListOf<NumberPicker>()
                         zeroRow()
                         butRow()
-                        middleLevel(grid, row, 10)
+                        middleLevel(grid, rowOne, 10)
                     }
 
                     3 -> {
@@ -99,9 +106,10 @@ class CombinationActivity : GameActivity() {
                         resNumbers = generateNumbers(3, 10)
                         tvTries.text = tries.toString()
                         tvTimer.text = String.format("%02d:%02d", time / 60000L, time % 60000L)
+                        numberPickers = mutableListOf<NumberPicker>()
                         zeroRow()
                         butRow()
-                        middleLevel(grid, row, 10)
+                        middleLevel(grid, rowOne, 10)
                     }
 
                     4 -> {
@@ -110,15 +118,40 @@ class CombinationActivity : GameActivity() {
                         marginError = 10
                         maxNumber = 10
                         resNumbers = generateNumbers(5, 10)
+                        numberPickers = mutableListOf<NumberPicker>()
                         tvTries.text = tries.toString()
                         tvTimer.text = String.format("%02d:%02d", time / 60000L, time % 60000L)
                         zeroRow()
                         butRow()
-                        addNumberPickerToGridLayout(grid, row, 0, maxNumber)
-                        addNumberPickerToGridLayout(grid, row, 1, maxNumber)
-                        addNumberPickerToGridLayout(grid, row, 2, maxNumber)
-                        addNumberPickerToGridLayout(grid, row, 3, maxNumber)
-                        addNumberPickerToGridLayout(grid, row, 4, maxNumber)
+                        addNumberPickerToGridLayout(grid, rowOne, 0, maxNumber)
+                        addNumberPickerToGridLayout(grid, rowOne, 1, maxNumber)
+                        addNumberPickerToGridLayout(grid, rowOne, 2, maxNumber)
+                        addNumberPickerToGridLayout(grid, rowOne, 3, maxNumber)
+                        addNumberPickerToGridLayout(grid, rowOne, 4, maxNumber)
+                    }
+                }
+
+                if (time > 0L) {
+                    chrono.visibility = View.VISIBLE
+                } else {
+                    chrono.visibility = View.GONE
+                }
+                timer = object : CountDownTimer(time, 1000L) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        time = millisUntilFinished / 1000L
+                        tvTimer.text = showTime()
+                    }
+
+                    override fun onFinish() {
+                        Toast.makeText(this@CombinationActivity, "Time's up", Toast.LENGTH_SHORT)
+                            .show()
+                        endGame()
+                    }
+
+                    private fun showTime(): String {
+                        val min = time / 60
+                        val sec = time % 60
+                        return String.format("%02d:%02d", min, sec)
                     }
                 }
             }
@@ -128,15 +161,8 @@ class CombinationActivity : GameActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
 
         })
-        if (time > 0) {
-            chrono.visibility = View.VISIBLE
-        } else {
-            chrono.visibility = View.GONE
-        }
-        tvTries.text = tries.toString()
     }
-    //TODO pause timer on State.Paused, points on endgame, if corrects answer endgame, programmatically print layout, print answer
-    //TODO redo showcolor
+    //TODO on verify() screen goes blank
 
     private fun middleLevel(grid: GridLayout, row: Int, maxNumber: Int) {
         addSpaceToGridLayout(grid, row, 0)
@@ -146,40 +172,106 @@ class CombinationActivity : GameActivity() {
         addSpaceToGridLayout(grid, row, 4)
     }
 
+    private fun colorLevel(colorArray: IntArray) {
+        colorArray.sort()
+        when (level) {
+            0 -> {
+                val view = TextView(this)
+                val layoutParams = GridLayout.LayoutParams()
+                view.text = " "
+                view.textSize = 100f
+
+                layoutParams.rowSpec = GridLayout.spec(rowThree)
+                layoutParams.columnSpec = GridLayout.spec(2, 1f)
+                layoutParams.setGravity(Gravity.FILL)
+                view.setBackgroundColor(ContextCompat.getColor(this, colorArray[0]))
+                binding.glContainer.addView(view, layoutParams)
+
+                addSpaceToGridLayout(binding.glContainer, rowThree, 0)
+                addSpaceToGridLayout(binding.glContainer, rowThree, 1)
+                addSpaceToGridLayout(binding.glContainer, rowThree, 3)
+                addSpaceToGridLayout(binding.glContainer, rowThree, 4)
+
+            }
+
+            1, 2, 3 -> {
+                for (i in 0..2) {
+                    val view = TextView(this)
+                    val layoutParams = GridLayout.LayoutParams()
+                    view.text = " "
+                    view.textSize = 100f
+
+                    layoutParams.rowSpec = GridLayout.spec(rowThree)
+                    layoutParams.columnSpec = GridLayout.spec(i + 1, 1f)
+                    layoutParams.setGravity(Gravity.FILL)
+                    view.setBackgroundColor(ContextCompat.getColor(this, colorArray[i]))
+                    binding.glContainer.addView(view, layoutParams)
+                }
+                addSpaceToGridLayout(binding.glContainer, rowThree, 0)
+                addSpaceToGridLayout(binding.glContainer, rowThree, 4)
+                //checkGridLayoutContent(binding.glContainer)
+            }
+
+            4 -> {
+                for (i in 0..4) {
+                    val view = TextView(this)
+                    val layoutParams = GridLayout.LayoutParams()
+                    view.text = " "
+                    view.textSize = 100f
+
+                    layoutParams.rowSpec = GridLayout.spec(rowThree)
+                    layoutParams.columnSpec = GridLayout.spec(i, 1f)
+                    layoutParams.setGravity(Gravity.FILL)
+                    view.setBackgroundColor(ContextCompat.getColor(this, colorArray[i]))
+                    binding.glContainer.addView(view, layoutParams)
+                }
+            }
+        }
+    }
+
+    private fun checkGridLayoutContent(gridLayout: GridLayout) {
+        Log.d("+++", "checkGridLayoutContent: ")
+        for (row in 0 until gridLayout.rowCount) {
+            for (column in 0 until gridLayout.columnCount) {
+                val childView = gridLayout.getChildAt(row * gridLayout.columnCount + column)
+                Log.d("+++", "row: $row, column $column: $childView ")
+            }
+        }
+    }
+
+
     private fun zeroRow() {
         val grid = binding.glContainer
-        val row = 0
         val layoutParams = GridLayout.LayoutParams()
         val layoutParams1 = GridLayout.LayoutParams()
 
-        layoutParams.rowSpec = GridLayout.spec(row)
+        layoutParams.rowSpec = GridLayout.spec(rowZero)
         layoutParams.columnSpec = GridLayout.spec(2, 1f)
         layoutParams.setGravity(Gravity.FILL)
         grid.addView(tvTimer, layoutParams)
 
-        layoutParams1.rowSpec = GridLayout.spec(row)
+        layoutParams1.rowSpec = GridLayout.spec(rowZero)
         layoutParams1.columnSpec = GridLayout.spec(3, 1f)
         layoutParams1.setGravity(Gravity.FILL)
         grid.addView(tvTries, layoutParams1)
 
-        addSpaceToGridLayout(grid, row, 0)
-        addSpaceToGridLayout(grid, row, 1)
-        addSpaceToGridLayout(grid, row, 4)
+        addSpaceToGridLayout(grid, rowZero, 0)
+        addSpaceToGridLayout(grid, rowZero, 1)
+        addSpaceToGridLayout(grid, rowZero, 4)
     }
 
     private fun butRow() {
-        val row = 2
         val grid = binding.glContainer
         val layoutParams = GridLayout.LayoutParams()
-        layoutParams.rowSpec = GridLayout.spec(row)
+        layoutParams.rowSpec = GridLayout.spec(rowTwo)
         layoutParams.columnSpec = GridLayout.spec(2, 1f)
         layoutParams.setGravity(Gravity.FILL)
         grid.addView(butVerify, layoutParams)
 
-        addSpaceToGridLayout(grid, row, 0)
-        addSpaceToGridLayout(grid, row, 1)
-        addSpaceToGridLayout(grid, row, 3)
-        addSpaceToGridLayout(grid, row, 4)
+        addSpaceToGridLayout(grid, rowTwo, 0)
+        addSpaceToGridLayout(grid, rowTwo, 1)
+        addSpaceToGridLayout(grid, rowTwo, 3)
+        addSpaceToGridLayout(grid, rowTwo, 4)
     }
 
     private fun addNumberPickerToGridLayout(grid: GridLayout, row: Int, column: Int, maxVal: Int) {
@@ -218,7 +310,6 @@ class CombinationActivity : GameActivity() {
 
     override fun startGame() {
         state = State.ACTIVE
-        binding.glContainer.isEnabled = true
         binding.faButPause.visibility = View.VISIBLE
         binding.faButPlay.visibility = View.GONE
         binding.vOverlay.visibility = View.GONE
@@ -227,8 +318,20 @@ class CombinationActivity : GameActivity() {
         if (time > 0L) {
             timer.start()
         }
+        if ((userViewModel.score.value?.points ?: 0) > 0) {
+            Log.d("+++", "startGame: ")
+            userViewModel.setNewScore(GameType.COMBINATION)
+        }
+
         butVerify.setOnClickListener {
-            if (--tries <= 0) {
+            var npRes: IntArray = intArrayOf()
+            for (i in numberPickers.indices) {
+                npRes += numberPickers[i].value
+            }
+            Log.d("+++", "npRes: ${npRes.toList()} ")
+            Log.d("+++", "resNumbers: ${resNumbers.toList()}")
+            if (tries <= 0 || npRes contentEquals resNumbers) {
+                verify()
                 endGame()
             } else {
                 verify()
@@ -237,60 +340,118 @@ class CombinationActivity : GameActivity() {
     }
 
     private fun verify() {
+        var colors: IntArray = intArrayOf()
         for (i in numberPickers.indices) {
             val response = numberPickers[i].value
             val number = resNumbers[i]
             val dif = abs(response - number)
-            val percentage = dif * 100 / (resNumbers.maxOrNull() ?: 1)
+            val percentage =
+                dif * 100 / (if ((resNumbers.maxOrNull() ?: 1) == 0) 1 else resNumbers.maxOrNull()
+                    ?: 1)
             val color = if (percentage == 0) R.color.green
             else if (percentage <= marginError) R.color.orange
             else R.color.red
-            showColor(i, color)
+            colors += color
         }
+        colorLevel(colors)
         --tries
         tvTries.text = tries.toString()
     }
 
-    fun showColor(index: Int, color: Int) {
-        val grid = binding.glContainer
-        val view = View(this)
-        view.setBackgroundColor(color)
-        val layoutParams = GridLayout.LayoutParams()
-        layoutParams.rowSpec = GridLayout.spec(2)
-        layoutParams.columnSpec = GridLayout.spec(index, 1f)
-        layoutParams.setGravity(Gravity.FILL)
-        grid.addView(view, layoutParams)
-    }
-
     override fun pauseGame() {
         state = State.PAUSED
-        binding.glContainer.isEnabled = false
         binding.faButPause.visibility = View.GONE
         binding.faButPlay.visibility = View.VISIBLE
         binding.vOverlay.visibility = View.VISIBLE
         binding.vOverlay.isClickable = true
         binding.sbLevel.isEnabled = true
-
+        userViewModel.score.observe(this) { score ->
+            if (score.points > 0) {
+                userViewModel.saveScore()
+            }
+        }
         timer.cancel()
     }
 
     override fun endGame() {
-        var score: Long = 0L
+        timer.cancel()
+        var points = 0L
         var timeArray: List<String>
 
         state = State.ENDED
-        timer.cancel()
-        timeArray = tvTimer.text.split(":")
-        if (time > 0L) {
-            score = (timeArray[0].toLong() * 1000) + (timeArray[1].toLong() * 100)
+        var npRes: IntArray = intArrayOf()
+        for (i in numberPickers.indices) {
+            npRes += numberPickers[i].value
         }
-        score += when (level) {
-            0 -> 10L
-            1 -> 100L
-            2 -> 200L
-            3 -> 500L
-            4 -> 1000L
-            else -> 0L
+        if (tries > 0 && npRes contentEquals resNumbers) {
+            timeArray = tvTimer.text.split(":")
+            if (time > 0L) {
+                points = (timeArray[0].toLong() * 1000L) + (timeArray[1].toLong() * 100L)
+            }
+            points += when (level) {
+                0 -> 10L
+                1 -> 100L
+                2 -> 200L
+                3 -> 500L
+                4 -> 1000L
+                else -> 0L
+            }
+            userViewModel.updateScore(points)
+        }
+
+        showResponse()
+        pauseGame()
+    }
+
+    private fun showResponse() {
+        val row = 4
+        val grid = binding.glContainer
+        when (level) {
+            0 -> {
+                val tvRes = TextView(this)
+                val layoutParams = GridLayout.LayoutParams()
+                tvRes.textSize = 100f
+
+                layoutParams.rowSpec = GridLayout.spec(row)
+                layoutParams.columnSpec = GridLayout.spec(2, 1f)
+                layoutParams.setGravity(Gravity.FILL)
+                tvRes.text = resNumbers[0].toString()
+                grid.addView(tvRes, layoutParams)
+                addSpaceToGridLayout(grid, row, 0)
+                addSpaceToGridLayout(grid, row, 1)
+                addSpaceToGridLayout(grid, row, 3)
+                addSpaceToGridLayout(grid, row, 4)
+            }
+
+            1, 2, 3 -> {
+                for (i in 0..2) {
+                    val tvRes = TextView(this)
+                    val layoutParams = GridLayout.LayoutParams()
+                    tvRes.textSize = 100f
+
+                    layoutParams.rowSpec = GridLayout.spec(row)
+                    layoutParams.columnSpec = GridLayout.spec(i + 1, 1f)
+                    layoutParams.setGravity(Gravity.FILL)
+                    tvRes.text = resNumbers[i].toString()
+                    grid.addView(tvRes, layoutParams)
+                }
+                addSpaceToGridLayout(grid, row, 0)
+                addSpaceToGridLayout(grid, row, 4)
+            }
+
+            4 -> {
+                for (i in 0..4) {
+                    val tvRes = TextView(this)
+                    val layoutParams = GridLayout.LayoutParams()
+                    tvRes.textSize = 100f
+
+                    layoutParams.rowSpec = GridLayout.spec(row)
+                    layoutParams.columnSpec = GridLayout.spec(i, 1f)
+                    layoutParams.setGravity(Gravity.FILL)
+                    tvRes.text = resNumbers[i].toString()
+                    grid.addView(tvRes, layoutParams)
+                }
+            }
         }
     }
 
@@ -310,26 +471,9 @@ class CombinationActivity : GameActivity() {
 
 
         tvTimer = TextView(this)
+        tvTimer.text = "00:00"
         tvTries = TextView(this)
         tvTries.text = tries.toString()
-
-        timer = object : CountDownTimer(time, 1000L) {
-            override fun onTick(millisUntilFinished: Long) {
-                time = millisUntilFinished / 1000
-                showTime()
-            }
-
-            override fun onFinish() {
-                Toast.makeText(this@CombinationActivity, "Time's up", Toast.LENGTH_SHORT).show()
-                endGame()
-            }
-
-            private fun showTime(): String {
-                val min = time / 60
-                val sec = time % 60
-                return String.format("%02d:%02d", min, sec)
-            }
-        }
 
         if (intent.hasExtra("id") && intent.getLongExtra("id", 0L) != 0L) {
             val id = intent.getLongExtra("id", 0L)
