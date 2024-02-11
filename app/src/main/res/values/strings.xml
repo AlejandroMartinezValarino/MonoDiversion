@@ -26,4 +26,7 @@
     <string name="home">Home</string>
     <string name="combination">Combination</string>
     <string name="verify">Verify</string>
+    <string name="visible">Visible</string>
+    <string name="hidden">Hidden</string>
+    <string name="users">Users</string>
 </resources>

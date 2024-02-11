@@ -162,8 +162,6 @@ class CombinationActivity : GameActivity() {
 
         })
     }
-    //TODO on verify() screen goes blank
-
     private fun middleLevel(grid: GridLayout, row: Int, maxNumber: Int) {
         addSpaceToGridLayout(grid, row, 0)
         addNumberPickerToGridLayout(grid, row, 1, maxNumber)

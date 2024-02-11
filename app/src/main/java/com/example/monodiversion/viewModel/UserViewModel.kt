@@ -47,7 +47,6 @@ class UserViewModel @Inject constructor(
         _score.value?.gameType = gameType
     }
     fun setNewScore(gameType: GameType){
-        Log.d("+++", "setNewScore: ")
         _score.postValue(Score())
         setGameType(gameType)
     }
@@ -82,7 +81,6 @@ class UserViewModel @Inject constructor(
             isLoading.postValue(false)
         }
     }
-
     fun updateById(id: Long) {
         viewModelScope.launch {
             val user = userRepository.getUserById(id)

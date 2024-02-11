@@ -32,7 +32,6 @@ class UserAdapter(private val context: Context, private var userList: List<User>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = userList[holder.adapterPosition]
         val flag = user.flag
-        val intent = Intent(context, ActivityUsersBinding::class.java)
         val userViewModel = ViewModelProvider(context as UsersActivity)[UserViewModel::class.java]
 
         holder.tvNameItem.text = user.name
