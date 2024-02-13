@@ -40,10 +40,9 @@ class ScoreActivity : AppCompatActivity() {
         initViews()
     }
 
-    //TODO change multiautocomplete with simple autocomplete and checkbox with radiobutton
     private fun initViews() {
         val container: RecyclerView = binding.rvScoreContainer
-        var selectedArrangement: GameType = GameType.COMBINATION
+        var selectedArrangement: GameType
         userViewModel.getUsers()
 
         userViewModel.users.observe(this) { users ->
@@ -72,10 +71,6 @@ class ScoreActivity : AppCompatActivity() {
                     val scoreAdapter =
                         scoreViewModel.userScore.value?.let { ScoreAdapter(this, scores, it) }
                     container.adapter = scoreAdapter
-                }
-
-                scoreViewModel.isLoading.observe(this) {
-                    binding.pbHorizontal.isVisible = it
                 }
             }
         }

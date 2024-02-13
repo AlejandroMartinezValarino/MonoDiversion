@@ -2,6 +2,8 @@ package com.example.monodiversion.view.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -34,22 +36,72 @@ class HeaderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHeaderBinding.inflate(inflater,container,false)
+        _binding = FragmentHeaderBinding.inflate(inflater, container, false)
         userViewModel.isLightTheme.observe(viewLifecycleOwner, Observer { isLight ->
             if (isLight) {
-                binding.llHeader.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_primary))
-                binding.tvName.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_onPrimary))
-                binding.tvCountry.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_onPrimary))
-                binding.tvScore.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_onPrimary))
+                binding.llHeader.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.matrix_theme_light_primary
+                    )
+                )
+                binding.tvName.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.matrix_theme_light_onPrimary
+                    )
+                )
+                binding.tvCountry.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.matrix_theme_light_onPrimary
+                    )
+                )
+                binding.tvScore.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.matrix_theme_light_onPrimary
+                    )
+                )
                 binding.tvSwitch.text = "Light"
-                binding.tvSwitch.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_light_onPrimary))
+                binding.tvSwitch.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.matrix_theme_light_onPrimary
+                    )
+                )
             } else {
-                binding.llHeader.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_primary))
-                binding.tvName.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_onPrimary))
-                binding.tvCountry.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_onPrimary))
-                binding.tvScore.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_onPrimary))
+                binding.llHeader.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.matrix_theme_dark_primary
+                    )
+                )
+                binding.tvName.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.matrix_theme_dark_onPrimary
+                    )
+                )
+                binding.tvCountry.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.matrix_theme_dark_onPrimary
+                    )
+                )
+                binding.tvScore.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.matrix_theme_dark_onPrimary
+                    )
+                )
                 binding.tvSwitch.text = "Dark"
-                binding.tvSwitch.setTextColor(ContextCompat.getColor(requireContext(),R.color.matrix_theme_dark_onPrimary))
+                binding.tvSwitch.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.matrix_theme_dark_onPrimary
+                    )
+                )
             }
         })
         return binding.root
@@ -60,18 +112,19 @@ class HeaderFragment : Fragment() {
         initListeners()
     }
 
-    private fun initListeners(){
-        userViewModel.score.observe(viewLifecycleOwner){score->
-            val points = score.points.toString()+" points"
+    private fun initListeners() {
+        userViewModel.score.observe(viewLifecycleOwner) { score ->
+            val points = score.points.toString() + " points"
             binding.tvScore.text = points
         }
-        binding.scTheme.setOnCheckedChangeListener{_,isChecked ->
+        binding.scTheme.setOnCheckedChangeListener { _, isChecked ->
             userViewModel.updateTheme(isChecked)
         }
         userViewModel.user.observe(viewLifecycleOwner) { user ->
             val flag = user.flag
             if (flag != null) {
-                binding.llFlag.orientation = if(flag.orientation == BoxArrangement.HORIZONTAL) HORIZONTAL else VERTICAL
+                binding.llFlag.orientation =
+                    if (flag.orientation == BoxArrangement.HORIZONTAL) HORIZONTAL else VERTICAL
 
                 binding.llFlag.removeAllViews()
                 for (color in flag.colors) {

@@ -39,12 +39,12 @@ class UserViewModel @Inject constructor(
         _user.postValue(user)
     }
 
-    fun updateScore(points: Long) {
-        _score.postValue(Score(points = points))
+    fun updateScore(gameType: GameType,points: Long) {
+        _score.value = Score(gameType=gameType,points = points)
     }
 
     fun setGameType(gameType: GameType) {
-        _score.value?.gameType = gameType
+        _score.postValue(Score(gameType=gameType))
     }
     fun setNewScore(gameType: GameType){
         _score.postValue(Score())

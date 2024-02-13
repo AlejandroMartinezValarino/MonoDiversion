@@ -2,6 +2,8 @@ package com.example.monodiversion.view
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -30,7 +32,6 @@ class CombinationActivity : GameActivity() {
 
     private val userViewModel: UserViewModel by viewModels<UserViewModel>()
     private lateinit var binding: ActivityCombinationBinding
-    private var state: State = State.PAUSED
     private var numberPickers = mutableListOf<NumberPicker>()
     private var level: Int = 0
     private var tries: Int = 0
@@ -39,7 +40,6 @@ class CombinationActivity : GameActivity() {
     private val rowOne = 1
     private val rowTwo = 2
     private val rowThree = 3
-    private val rowFour = 4
     private lateinit var timer: CountDownTimer
     private lateinit var tvTimer: TextView
     private lateinit var tvTries: TextView
@@ -307,7 +307,6 @@ class CombinationActivity : GameActivity() {
     }
 
     override fun startGame() {
-        state = State.ACTIVE
         binding.faButPause.visibility = View.VISIBLE
         binding.faButPlay.visibility = View.GONE
         binding.vOverlay.visibility = View.GONE
@@ -317,7 +316,6 @@ class CombinationActivity : GameActivity() {
             timer.start()
         }
         if ((userViewModel.score.value?.points ?: 0) > 0) {
-            Log.d("+++", "startGame: ")
             userViewModel.setNewScore(GameType.COMBINATION)
         }
 
@@ -326,8 +324,6 @@ class CombinationActivity : GameActivity() {
             for (i in numberPickers.indices) {
                 npRes += numberPickers[i].value
             }
-            Log.d("+++", "npRes: ${npRes.toList()} ")
-            Log.d("+++", "resNumbers: ${resNumbers.toList()}")
             if (tries <= 0 || npRes contentEquals resNumbers) {
                 verify()
                 endGame()
@@ -357,17 +353,11 @@ class CombinationActivity : GameActivity() {
     }
 
     override fun pauseGame() {
-        state = State.PAUSED
         binding.faButPause.visibility = View.GONE
         binding.faButPlay.visibility = View.VISIBLE
         binding.vOverlay.visibility = View.VISIBLE
         binding.vOverlay.isClickable = true
         binding.sbLevel.isEnabled = true
-        userViewModel.score.observe(this) { score ->
-            if (score.points > 0) {
-                userViewModel.saveScore()
-            }
-        }
         timer.cancel()
     }
 
@@ -376,7 +366,6 @@ class CombinationActivity : GameActivity() {
         var points = 0L
         var timeArray: List<String>
 
-        state = State.ENDED
         var npRes: IntArray = intArrayOf()
         for (i in numberPickers.indices) {
             npRes += numberPickers[i].value
@@ -394,7 +383,11 @@ class CombinationActivity : GameActivity() {
                 4 -> 1000L
                 else -> 0L
             }
-            userViewModel.updateScore(points)
+            userViewModel.updateScore(GameType.COMBINATION,points)
+            userViewModel.saveScore()
+            Handler(Looper.getMainLooper()).postDelayed({
+                userViewModel.setNewScore(GameType.MEMORY)
+            }, 3000)
         }
 
         showResponse()

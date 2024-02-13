@@ -21,8 +21,7 @@ class ScoreViewModel @Inject constructor(
 ):ViewModel() {
     private val _user = MutableLiveData(User())
     private val _scores = MutableLiveData<List<Score>>()
-
-    val isLoading = MutableLiveData<Boolean>()
+    
     val userScore:LiveData<User> get() = _user
     val scores:LiveData<List<Score>> get() = _scores
 
@@ -33,10 +32,8 @@ class ScoreViewModel @Inject constructor(
     }
     fun getScoresByIdAndType(userId: Long,type:GameType){
         viewModelScope.launch {
-            isLoading.postValue(true)
             val scoreList =  scoreRepository.getScoresByUserAndGameType(userId,type)
             _scores.postValue(scoreList)
-            isLoading.postValue(false)
         }
     }
 }
