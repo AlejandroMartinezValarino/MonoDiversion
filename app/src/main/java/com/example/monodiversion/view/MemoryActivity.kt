@@ -1,6 +1,9 @@
 package com.example.monodiversion.view
 
 import android.graphics.Color
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
@@ -81,18 +84,9 @@ class MemoryActivity : GameActivity() {
                         zeroRow()
                         for (row in minRow..maxRow) {
                             for (col in minColumn..maxColumn) {
-                                val tvNum = TextView(this@MemoryActivity)
-                                if (i < numbers.size) {
-                                    tvNum.text = numbers[i++].toString()
+                                if(i < numbers.size){
+                                    addTextNumber(row,col,numbers[i++])
                                 }
-                                tvNum.setTextColor(Color.BLACK)
-                                tvNum.textSize = 50f
-                                val layoutParams = GridLayout.LayoutParams()
-                                layoutParams.rowSpec = GridLayout.spec(row)
-                                layoutParams.columnSpec = GridLayout.spec(col, 1f)
-                                layoutParams.setGravity(Gravity.FILL)
-
-                                grid.addView(tvNum, layoutParams)
                             }
                         }
                     }
@@ -135,6 +129,7 @@ class MemoryActivity : GameActivity() {
         tvNum.text = num.toString()
         tvNum.textSize = 50f
         tvNum.setTextColor(Color.BLACK)
+
         val layoutParams = GridLayout.LayoutParams()
         layoutParams.rowSpec = GridLayout.spec(row)
         layoutParams.columnSpec = GridLayout.spec(col, 1f)
@@ -212,10 +207,25 @@ class MemoryActivity : GameActivity() {
 
     private fun changeTextViewBackground() {
         val gridLayout = binding.glContainer
+        val borderWidth = 10
+        val borderColor = Color.WHITE
+        val borderDrawable = ShapeDrawable(RectShape()).apply {
+            paint.color = borderColor
+            paint.style = android.graphics.Paint.Style.STROKE
+            paint.strokeWidth = borderWidth.toFloat()
+        }
+        val layers = arrayOf(borderDrawable, ShapeDrawable(RectShape()).apply {
+            paint.color = Color.BLACK
+            paint.style = android.graphics.Paint.Style.FILL
+        })
+        val layerDrawable = LayerDrawable(layers)
         for (i in 0 until gridLayout.childCount) {
             val childView = gridLayout.getChildAt(i)
             if (childView is TextView) {
-                childView.setBackgroundColor(Color.BLACK)
+                childView.background = layerDrawable
+                val params = childView.layoutParams as GridLayout.LayoutParams
+                params.setMargins(borderWidth, borderWidth, borderWidth, borderWidth)
+                childView.layoutParams = params
             }
         }
     }

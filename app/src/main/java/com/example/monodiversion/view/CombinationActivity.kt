@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat
 import com.example.monodiversion.R
 import com.example.monodiversion.databinding.ActivityCombinationBinding
 import com.example.monodiversion.helper.GameType
-import com.example.monodiversion.helper.State
 import com.example.monodiversion.view.fragment.BottomMenuFragment
 import com.example.monodiversion.view.fragment.HeaderFragment
 import com.example.monodiversion.viewModel.UserViewModel
@@ -386,7 +385,7 @@ class CombinationActivity : GameActivity() {
             userViewModel.updateScore(GameType.COMBINATION,points)
             userViewModel.saveScore()
             Handler(Looper.getMainLooper()).postDelayed({
-                userViewModel.setNewScore(GameType.MEMORY)
+                userViewModel.setNewScore(GameType.COMBINATION)
             }, 3000)
         }
 
