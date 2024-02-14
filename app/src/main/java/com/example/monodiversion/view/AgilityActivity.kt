@@ -1,5 +1,7 @@
 package com.example.monodiversion.view
 
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
@@ -10,6 +12,7 @@ import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.Space
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import com.example.monodiversion.R
 import com.example.monodiversion.databinding.ActivityAgilityBinding
 import com.example.monodiversion.helper.GameType
@@ -29,14 +32,16 @@ class AgilityActivity : GameActivity() {
     private val start = 0
     private val middleRow = 2
     private val middleCol = 2
-    private val totalTime = 10000L
+    private var totalTime = 10000L
     private val interval = 100L
-    private val greenButton = R.drawable.round_button_0250
+    //private val greenButton = R.drawable.round_button_0250
+    private val greenButton = R.drawable.roundbutton
     private var points = 0L
 
     override fun inflateLayout() {
         val grid = binding.glContainer
         val pb = binding.pbHorizontal
+
         pb.max = (totalTime / interval).toInt()
 
         timer = object : CountDownTimer(totalTime, interval) {
@@ -63,7 +68,10 @@ class AgilityActivity : GameActivity() {
             }
         }
         currentButton = ImageButton(this)
-        currentButton.setImageResource(greenButton)
+        currentButton.apply {
+            setImageResource(greenButton)
+            setBackgroundColor(ContextCompat.getColor(this@AgilityActivity,R.color.matrix_theme_light_background))
+        }
         val layoutParams = GridLayout.LayoutParams()
         layoutParams.rowSpec = GridLayout.spec(middleRow,1f)
         layoutParams.columnSpec = GridLayout.spec(middleCol,1f)
@@ -74,8 +82,9 @@ class AgilityActivity : GameActivity() {
         val grid = binding.glContainer
 
         currentButton.let { button ->
-            val space = Space(this)
-            space.layoutParams = button.layoutParams
+            val space = Space(this).apply {
+                layoutParams = button.layoutParams
+            }
             grid.removeView(button)
             grid.addView(space)
         }
@@ -83,12 +92,16 @@ class AgilityActivity : GameActivity() {
         val randomRow = Random.nextInt(grid.rowCount)
         val randomCol = Random.nextInt(grid.columnCount)
 
-        val button = ImageButton(this)
-        button.setImageResource(greenButton)
-        val layoutParams = GridLayout.LayoutParams()
-        layoutParams.rowSpec = GridLayout.spec(randomRow,1f)
-        layoutParams.columnSpec = GridLayout.spec(randomCol,1f)
-        layoutParams.setGravity(Gravity.FILL)
+        val button = ImageButton(this).apply {
+            setImageResource(greenButton)
+            setBackgroundColor(ContextCompat.getColor(this@AgilityActivity,R.color.matrix_theme_light_background))
+        }
+
+        val layoutParams = GridLayout.LayoutParams().apply {
+            rowSpec = GridLayout.spec(randomRow,1f)
+            columnSpec = GridLayout.spec(randomCol,1f)
+            setGravity(Gravity.FILL)
+        }
         button.layoutParams = layoutParams
 
         grid.addView(button)
@@ -119,6 +132,9 @@ class AgilityActivity : GameActivity() {
         binding.vOverlay.visibility = View.VISIBLE
         binding.vOverlay.isClickable = true
         timer.cancel()
+
+        totalTime = 10000L
+        points = 0L
     }
 
     override fun endGame() {
@@ -128,6 +144,8 @@ class AgilityActivity : GameActivity() {
         pauseGame()
         Handler(Looper.getMainLooper()).postDelayed({
             userViewModel.setNewScore(GameType.AGILITY)
+            totalTime = 10000L
+            points = 0L
         }, 3000)
     }
 
