@@ -9,6 +9,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ArrayAdapter
+import android.widget.CalendarView
 import android.widget.MediaController
 import android.widget.MultiAutoCompleteTextView
 import android.widget.SearchView
@@ -21,13 +22,14 @@ import com.example.monodiversion.helper.Country
 import com.example.monodiversion.helper.adapter.UserSearchAdapter
 import com.example.monodiversion.viewModel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 
 @AndroidEntryPoint
 class ChaosActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityChaosBinding
     private val userViewModel:UserViewModel by viewModels()
-    var country = "<p>From country"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChaosBinding.inflate(layoutInflater)
@@ -65,13 +67,16 @@ class ChaosActivity : AppCompatActivity() {
         })
     }
     private fun sendInfo(){
+        var date = "<p>Date: "
+        binding.cvDate.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            date += "$dayOfMonth/${month+1}/$year</p><br>"
+        }
         binding.butSend.setOnClickListener {
             val header = "<h1>Your information is:</h1><br>"
             val email = "<p>Your email: "+binding.etEmail.text+"</p><br>"
             val phone = "<p>Your phone number: "+binding.etPhone.text+"</p><br>"
-            val date = "<p>Date: "+binding.cvDate.date+"</p><hr>"
             val fav = "<h2>Your favorites are:</h2><br>"
-            country += binding.mactvCountries.text.toString()+"</p><br>"
+            val country = "<p>From country: "+binding.mactvCountries.text.dropLast(2)+"</p><br>"
             val rating = "<p>Rating: "+binding.ratBarChaos.rating+"/"+binding.ratBarChaos.max+"</p><br>"
             val builder = AlertDialog.Builder(this).apply {
                 setTitle("Is this information correct?")
