@@ -1,4 +1,4 @@
-package com.example.monodiversion.helper
+package com.example.monodiversion.helper.adapter
 
 import android.app.AlertDialog
 import android.content.Context
@@ -10,12 +10,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.monodiversion.R
-import com.example.monodiversion.databinding.ActivityUsersBinding
+import com.example.monodiversion.helper.BoxArrangement
 import com.example.monodiversion.model.User
-import com.example.monodiversion.view.MainActivity
 import com.example.monodiversion.view.UsersActivity
 import com.example.monodiversion.viewModel.UserViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -23,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class UserAdapter(private val context: Context, private var userList: List<User>) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
+    val userViewModel = ViewModelProvider(context as UsersActivity)[UserViewModel::class.java]
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(context).inflate(R.layout.user_item, parent, false)
@@ -32,7 +31,6 @@ class UserAdapter(private val context: Context, private var userList: List<User>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = userList[holder.adapterPosition]
         val flag = user.flag
-        val userViewModel = ViewModelProvider(context as UsersActivity)[UserViewModel::class.java]
 
         holder.tvNameItem.text = user.name
         holder.tvCountryItem.text = user.country.toString()
@@ -62,18 +60,14 @@ class UserAdapter(private val context: Context, private var userList: List<User>
         }
 
         holder.faButDelete.setOnClickListener {
-            val userToDelete = getItem(holder.adapterPosition)
+            val userToDelete = getItem(holder.layoutPosition)
             val dialog = AlertDialog.Builder(context)
                 .setTitle("Delete ${userToDelete.name}")
                 .setMessage("Are you sure?")
                 .setPositiveButton("Yes") { dialog, which ->
                     userViewModel.deleteUser(userToDelete)
-                    notifyItemRemoved(holder.adapterPosition)
-                    userViewModel.users.observe(context) { users ->
-                        val diffResult = DiffUtil.calculateDiff(UserDiffCallback(userList, users))
-                        userList = users
-                        diffResult.dispatchUpdatesTo(this)
-                    }
+                    val intent = Intent(context,UsersActivity::class.java)
+                    context.startActivity(intent)
                     Toast.makeText(
                         context,
                         "You deleted ${userToDelete.name}",
@@ -86,7 +80,7 @@ class UserAdapter(private val context: Context, private var userList: List<User>
         }
 
         holder.faButChoose.setOnClickListener {
-            val userToChoose = getItem(holder.adapterPosition)
+            val userToChoose = getItem(holder.layoutPosition)
             Toast.makeText(context,"You chose ${userToChoose.name}",Toast.LENGTH_SHORT)
                 .show()
             userViewModel.updateById(userToChoose.id)

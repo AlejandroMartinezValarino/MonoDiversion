@@ -1,7 +1,5 @@
 package com.example.monodiversion.view
 
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.OvalShape
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler

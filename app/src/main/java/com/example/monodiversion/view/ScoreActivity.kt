@@ -4,13 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.RadioButton
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.monodiversion.R
 import com.example.monodiversion.databinding.ActivityScoreBinding
 import com.example.monodiversion.helper.GameType
-import com.example.monodiversion.helper.ScoreAdapter
-import com.example.monodiversion.helper.UserAutoCompleteAdapter
+import com.example.monodiversion.helper.adapter.ScoreAdapter
+import com.example.monodiversion.helper.adapter.UserAutoCompleteAdapter
 import com.example.monodiversion.view.fragment.BottomMenuFragment
 import com.example.monodiversion.viewModel.ScoreViewModel
 import com.example.monodiversion.viewModel.UserViewModel

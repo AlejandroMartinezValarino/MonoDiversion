@@ -29,4 +29,11 @@
     <string name="visible">Visible</string>
     <string name="hidden">Hidden</string>
     <string name="users">Users</string>
+    <string name="opinion">Tell us your opinion</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="favorites">Your favorites</string>
+    <string name="send">Send</string>
+    <string name="more_information">More information</string>
+    <string name="looking">Looking for some user name?</string>
 </resources>

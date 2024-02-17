@@ -45,12 +45,6 @@
         android:layout_weight="6"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:scrollbars="vertical"/>
-    <ProgressBar
-        android:id="@+id/pbHorizontal"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
     <FrameLayout
         android:id="@+id/flBottomContainer"
         android:layout_width="match_parent"

@@ -156,7 +156,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/butCreate"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="125dp"
                 android:layout_weight="1"
                 android:text="@string/create"
                 android:layout_marginHorizontal="8dp"
@@ -166,12 +166,20 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/butChoose"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="125dp"
                 android:layout_weight="1"
                 android:text="@string/choose"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginBottom="8dp"
                 android:textSize="21sp"/>
+            <ImageButton
+                android:id="@+id/ibChaos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/squarebutton_0250"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginBottom="8dp"/>
         </LinearLayout>
         <FrameLayout
             android:id="@+id/flBottomContainer"

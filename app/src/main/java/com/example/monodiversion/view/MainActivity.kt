@@ -60,6 +60,10 @@ class MainActivity : AppCompatActivity() {
         onUserCreation()
         saveUser()
         chooseUser()
+        binding.ibChaos.setOnClickListener {
+            val intent = Intent(this,ChaosActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun initListeners() {

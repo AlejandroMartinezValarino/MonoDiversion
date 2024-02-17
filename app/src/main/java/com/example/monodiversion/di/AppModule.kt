@@ -3,6 +3,7 @@ package com.example.monodiversion.di
 import android.app.Application
 import androidx.room.Room
 import com.example.monodiversion.data.UserScoreDb
+import com.example.monodiversion.data.dao.FlagDao
 import com.example.monodiversion.data.dao.ScoreDao
 import com.example.monodiversion.data.dao.UserDao
 import dagger.Module

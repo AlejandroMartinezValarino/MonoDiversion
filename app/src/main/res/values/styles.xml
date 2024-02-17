@@ -9,7 +9,7 @@
 
     <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.AppCompat.Title">
         <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">30sp</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:letterSpacing">0</item>
     </style>
@@ -17,7 +17,7 @@
     <style name="TextAppearance.App.LabelSmall" parent="TextAppearance.AppCompat.Caption">
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">21sp</item>
         <item name="android:lineSpacingExtra">5sp</item>
         <item name="android:letterSpacing">0.05</item>
     </style>

@@ -1,8 +1,7 @@
-package com.example.monodiversion.helper
+package com.example.monodiversion.helper.adapter
 
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,18 +14,19 @@ import com.example.monodiversion.model.User
 
 class ScoreAdapter(private val context: Context, private var scoreList:List<Score>,private val userScore:User) :
     RecyclerView.Adapter<ScoreAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScoreAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(context).inflate(R.layout.score_item, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ScoreAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val score = scoreList[holder.adapterPosition]
 
         holder.tvName.text = userScore.name
         holder.tvScore.text = score.points.toString()
         holder.tvGType.text = score.gameType.name
+
         if (!holder.toggleButton.isChecked){
             holder.tvScore.visibility = View.GONE
             holder.tvGType.visibility = View.GONE

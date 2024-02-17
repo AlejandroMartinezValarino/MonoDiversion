@@ -1,4 +1,4 @@
-package com.example.monodiversion.helper
+package com.example.monodiversion.helper.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
