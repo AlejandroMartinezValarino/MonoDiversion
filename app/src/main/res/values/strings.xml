@@ -36,4 +36,7 @@
     <string name="send">Send</string>
     <string name="more_information">More information</string>
     <string name="looking">Looking for some user name?</string>
+    <string name="games_liked">Games liked?</string>
+    <string name="spin">Spin!</string>
+    <string name="color">Color</string>
 </resources>

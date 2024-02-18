@@ -41,6 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tvFavorites"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.App.BodyLarge"
@@ -59,12 +60,36 @@
                 android:numStars="5"
                 android:stepSize="1"
                 android:progressTint="@color/orange"/>
-            <Button
-                android:id="@+id/butSend"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/send"
-                style="@style/TextAppearance.App.LabelSmall"/>
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/butSend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/send"
+                    style="@style/TextAppearance.App.LabelSmall"/>
+                <Button
+                    android:id="@+id/butCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/games_liked"
+                    style="@style/TextAppearance.App.LabelSmall"/>
+                <Button
+                    android:id="@+id/butSpin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/spin"
+                    style="@style/TextAppearance.App.LabelSmall"/>
+                <Button
+                    android:id="@+id/butColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/color"
+                    style="@style/TextAppearance.App.LabelSmall"/>
+            </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

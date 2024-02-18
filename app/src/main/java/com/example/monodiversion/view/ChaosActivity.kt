@@ -1,6 +1,11 @@
 package com.example.monodiversion.view
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,8 +18,10 @@ import android.widget.CalendarView
 import android.widget.MediaController
 import android.widget.MultiAutoCompleteTextView
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.monodiversion.R
 import com.example.monodiversion.databinding.ActivityChaosBinding
@@ -22,6 +29,7 @@ import com.example.monodiversion.helper.Country
 import com.example.monodiversion.helper.adapter.UserSearchAdapter
 import com.example.monodiversion.viewModel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Arrays
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -43,9 +51,32 @@ class ChaosActivity : AppCompatActivity() {
         setSearch()
         setMulti()
         setInternetWidget()
+        setButAnimation()
     }
 
+    private fun setButAnimation(){
+        binding.butSpin.setOnClickListener {
+            ObjectAnimator.ofFloat(binding.tvFavorites,"rotation",0f,360f).apply {
+                duration = 2000
+            }.start()
+        }
+        val originalColor = ContextCompat.getColor(this,R.color.matrix_theme_light_primary)
+        val finalColor = Color.RED
 
+        binding.butColor.setOnClickListener {
+            ObjectAnimator.ofObject(binding.butColor,"backgroundColor",ArgbEvaluator(),originalColor,finalColor).apply {
+                duration = 2000
+                addListener(object : AnimatorListenerAdapter(){
+                    override fun onAnimationEnd(animation: Animator) {
+                        ObjectAnimator.ofObject(binding.butColor,"backgroundColor",ArgbEvaluator(),finalColor,originalColor).apply {
+                            duration = 2000
+                            start()
+                        }
+                    }
+                })
+            }.start()
+        }
+    }
     private fun setSearch() {
         userViewModel.getUsers()
         val container: RecyclerView = binding.rvUserContainer
@@ -67,6 +98,8 @@ class ChaosActivity : AppCompatActivity() {
         })
     }
     private fun sendInfo(){
+        val items = arrayOf("Agility", "Memory", "Combination")
+        val selectedList = ArrayList<Int>()
         var date = "<p>Date: "
         binding.cvDate.setOnDateChangeListener { _, year, month, dayOfMonth ->
             date += "$dayOfMonth/${month+1}/$year</p><br>"
@@ -85,6 +118,29 @@ class ChaosActivity : AppCompatActivity() {
                 setNegativeButton("No"){_,_->}
             }
             builder.create().show()
+        }
+        binding.butCheck.setOnClickListener {
+            val builder = AlertDialog.Builder(this).apply {
+                setTitle("Which games did you like?")
+                setMultiChoiceItems(items,null){_, which, isChecked ->
+                    if (isChecked) {
+                        selectedList.add(which)
+                    } else if (selectedList.contains(which)) {
+                        selectedList.remove(which)
+                    }
+                }
+                setPositiveButton("DONE") { _, _ ->
+                    val selectedStrings = ArrayList<String>()
+
+                    for (j in selectedList.indices) {
+                        selectedStrings.add(items[selectedList[j]])
+                    }
+
+                    Toast.makeText(applicationContext, "You liked: " + selectedStrings.toTypedArray()
+                        .contentToString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+            builder.show()
         }
     }
 
